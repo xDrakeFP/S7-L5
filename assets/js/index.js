@@ -1,5 +1,13 @@
 const endpoint = "https://striveschool-api.herokuapp.com/api/product/";
 
+const alertError = (tipo, messaggio) => {
+  const alertbox = document.getElementById("messaggio");
+  const alertcol = document.getElementById("alertcol");
+  alertbox.className = `alert alert-${tipo}`;
+  alertbox.textContent = messaggio;
+  alertcol.classList.remove("d-none");
+};
+
 const displayAlbums = () => {
   fetch(endpoint, {
     headers: {
@@ -12,7 +20,8 @@ const displayAlbums = () => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error(`Errore ${res.status}`);
+        alertError("danger", `Errore nel caricamento : ${res.status}`);
+        throw new Error(`${res.status}`);
       }
     })
     .then((data) => {
@@ -36,6 +45,7 @@ const displayAlbums = () => {
                   <p class="card-text">${album.brand}</p>
                   <p class="card-text">${album.price}€</p>
                   <a href="./detail.html?eventId=${album._id}" class="btn btn-primary">Vai ai dettagli</a>
+                  <a href="./backoffice.html?eventId=${album._id}" class="btn btn-secondary mt-1">Modifica</a>
                 </div>
               </div>
             </div>
@@ -45,7 +55,7 @@ const displayAlbums = () => {
       }
     })
     .catch((err) => {
-      console.log("Errore", err);
+      console.log(err);
     });
 };
 displayAlbums();

@@ -3,6 +3,14 @@ const endpoint = "https://striveschool-api.herokuapp.com/api/product/";
 const parameters = new URLSearchParams(location.search);
 const eventId = parameters.get("eventId");
 
+const alertError = (tipo, messaggio) => {
+  const alertbox = document.getElementById("messaggio");
+  const alertcol = document.getElementById("alertcol");
+  alertbox.className = `alert alert-${tipo}`;
+  alertbox.textContent = messaggio;
+  alertcol.classList.remove("d-none");
+};
+
 fetch(endpoint + "/" + eventId, {
   headers: {
     "Content-type": "application/json",
@@ -14,7 +22,8 @@ fetch(endpoint + "/" + eventId, {
     if (res.ok) {
       return res.json();
     } else {
-      throw new Error(`Errore ${res.status}`);
+      alertError("danger", `Errore nel caricamento : ${res.status}`);
+      throw new Error(`${res.status}`);
     }
   })
   .then((data) => {
@@ -28,7 +37,7 @@ fetch(endpoint + "/" + eventId, {
     document.getElementById("price").textContent = data.price + "€";
   })
   .catch((err) => {
-    console.log("Errore", err);
+    console.log(err);
   });
 
 const editAlbum = function () {
@@ -43,12 +52,24 @@ const deleteAlbum = function () {
       Authorization:
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODcwYzdlZTc4Y2RkZjAwMTU1ZDY3YWIiLCJpYXQiOjE3NTIyMjE2NzgsImV4cCI6MTc1MzQzMTI3OH0.AtlXCgvBIHI1F43mYHdwk227UegyzevWx_wR43wCu2s",
     },
-  }).then((res) => {
-    if (res.ok) {
-      alert("Elemento eliminato con successo");
-      window.location.replace("./index.html");
-    } else {
-      throw new Error(`Errore ${res.status}`);
-    }
-  });
+  })
+    .then((res) => {
+      if (res.ok) {
+        alert("Elemento eliminato con successo");
+        window.location.replace("./index.html");
+      } else {
+        alertError("danger", `Errore nel caricamento : ${res.status}`);
+        throw new Error(`${res.status}`);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+const confirmDeleteAlbum = () => {
+  const conferma = confirm("Sei sicuro di voler eliminare questo elemento?");
+  if (conferma) {
+    deleteAlbum();
+  }
 };

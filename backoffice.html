@@ -55,7 +55,10 @@
     </header>
     <main class="flex-grow-1">
       <div class="container">
-        <div class="row justify-content-center my-4">
+        <div class="row justify-content-center my-4 d-flex">
+          <div class="col col-12 text-center d-none" id="alertcol">
+            <div class="alert" id="messaggio" role="alert"></div>
+          </div>
           <div class="col col-12 col-md-6">
             <form id="album-form">
               <div class="mb-3">
@@ -93,8 +96,20 @@
                 <input type="number" class="form-control" id="price" required />
               </div>
               <button class="btn btn-outline-info" type="submit">Salva</button>
-              <button class="btn btn-outline-warning" onclick="resetForm()">
+              <button
+                class="btn btn-outline-warning"
+                onclick="confirmResetForm()"
+              >
                 Reset
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger"
+                onclick="confirmDeleteForm()"
+                disabled
+                id="cancella"
+              >
+                Cancella
               </button>
             </form>
           </div>

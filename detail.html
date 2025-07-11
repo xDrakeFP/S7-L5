@@ -64,6 +64,9 @@
           </div>
         </div>
         <div class="row justify-content-center my-4 g-2">
+          <div class="col col-12 text-center d-none" id="alertcol">
+            <div class="alert" id="messaggio" role="alert"></div>
+          </div>
           <div class="col col-12 col-md-6">
             <div class="card">
               <img
@@ -82,7 +85,7 @@
                   <button onclick="editAlbum()" class="btn btn-warning">
                     MODIFICA
                   </button>
-                  <button onclick="deleteAlbum()" class="btn btn-danger">
+                  <button onclick="confirmDeleteAlbum()" class="btn btn-danger">
                     ELIMINA
                   </button>
                 </div>
